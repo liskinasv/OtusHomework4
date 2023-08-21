@@ -13,8 +13,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0-preview.7.23375.6" />
     <PackageReference Include="Npgsql" Version="7.0.4" />
     <PackageReference Include="Npgsql.EntityFrameWorkCore.PostgreSQL" Version="7.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

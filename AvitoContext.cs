@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 namespace OtusHomework4;
 
@@ -13,6 +15,7 @@ public partial class AvitoContext : DbContext
     public AvitoContext(DbContextOptions<AvitoContext> options)
         : base(options)
     {
+       // Database.EnsureCreated();
     }
 
     public virtual DbSet<Advertisement> Advertisements { get; set; }
@@ -24,10 +27,17 @@ public partial class AvitoContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-/* To protect potentially sensitive information in your connection string, you should move it out of source code. 
-        You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148.
-        //For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.*/
-        => optionsBuilder.UseNpgsql("Host=localhost;Username=postgres;Password=svetlana;Database=Avito");
+    {
+        var builder = new ConfigurationBuilder();
+        builder.AddJsonFile("appsettings.json");
+        // создаем конфигурацию
+        var config = builder.Build();
+        // получаем строку подключения
+        string? connectionString = config.GetConnectionString("db");
+
+        optionsBuilder.UseNpgsql(connectionString);
+
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
