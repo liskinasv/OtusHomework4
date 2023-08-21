@@ -30,9 +30,7 @@ public partial class AvitoContext : DbContext
     {
         var builder = new ConfigurationBuilder();
         builder.AddJsonFile("appsettings.json");
-        // создаем конфигурацию
         var config = builder.Build();
-        // получаем строку подключения
         string? connectionString = config.GetConnectionString("db");
 
         optionsBuilder.UseNpgsql(connectionString);
@@ -48,6 +46,7 @@ public partial class AvitoContext : DbContext
             entity.ToTable("advertisements");
 
             entity.Property(e => e.AdId).HasColumnName("ad_id");
+            entity.Property(e => e.AdId).ValueGeneratedOnAdd();
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.SubcategoryId).HasColumnName("subcategory_id");
             entity.Property(e => e.Title)
@@ -66,11 +65,11 @@ public partial class AvitoContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("category_pkey");
+            entity.HasKey(e => e.CategoryId).HasName("category_pkey"); 
 
             entity.ToTable("category");
 
-            entity.Property(e => e.CategoryId).HasColumnName("category_id");
+            entity.Property(e => e.CategoryId).HasColumnName("category_id").ValueGeneratedOnAdd();
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
@@ -82,7 +81,7 @@ public partial class AvitoContext : DbContext
 
             entity.ToTable("subcategory");
 
-            entity.Property(e => e.SubcategoryId).HasColumnName("subcategory_id");
+            entity.Property(e => e.SubcategoryId).HasColumnName("subcategory_id").ValueGeneratedOnAdd(); ;
             entity.Property(e => e.CategoryId).HasColumnName("category_id");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
@@ -95,11 +94,11 @@ public partial class AvitoContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("users_pkey");
+            entity.HasKey(e => e.UserId).HasName("users_pkey") ;
 
             entity.ToTable("users");
 
-            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id").ValueGeneratedOnAdd() ;
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .HasColumnName("email");
